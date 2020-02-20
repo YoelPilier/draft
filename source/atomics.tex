@@ -1717,6 +1717,11 @@ The \tcode{order} argument is neither \tcode{memory_order::consume},
 \tcode{memory_order::acquire}, nor \tcode{memory_order::acq_rel}.
 
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Atomically replaces the value pointed to by \tcode{this}
 with the value of \tcode{desired}. Memory is affected according to the value of
@@ -1733,6 +1738,11 @@ T operator=(T desired) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Equivalent to \tcode{store(desired)}.
@@ -1759,6 +1769,11 @@ T load(memory_order order = memory_order::seq_cst) const noexcept;
 The \tcode{order} argument is neither \tcode{memory_order::release} nor \tcode{memory_order::acq_rel}.
 
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Memory is affected according to the value of \tcode{order}.
 
@@ -1778,6 +1793,11 @@ operator T() const noexcept;
 
 \begin{itemdescr}
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Equivalent to: \tcode{return load();}
 \end{itemdescr}
@@ -1795,6 +1815,11 @@ T exchange(T desired, memory_order order = memory_order::seq_cst) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Atomically replaces the value pointed to by \tcode{this}
@@ -1843,6 +1868,11 @@ bool compare_exchange_strong(T& expected, T desired,
 \expects
 The \tcode{failure} argument is neither \tcode{memory_order::release} nor
 \tcode{memory_order::acq_rel}.
+
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
 
 \pnum
 \effects
@@ -2228,6 +2258,11 @@ T fetch_@\placeholdernc{key}@(T operand, memory_order order = memory_order::seq_
 
 \begin{itemdescr}
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Atomically replaces the value pointed to by
 \tcode{this} with the result of the computation applied to the
@@ -2266,6 +2301,11 @@ T operator @\placeholder{op}@=(T operand) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Equivalent to: \tcode{return fetch_\placeholder{key}(operand) \placeholder{op} operand;}
@@ -2381,6 +2421,11 @@ T A::fetch_@\placeholdernc{key}@(T operand, memory_order order = memory_order_se
 
 \begin{itemdescr}
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Atomically replaces the value pointed to by \tcode{this}
 with the result of the computation applied to the value pointed
@@ -2414,6 +2459,11 @@ T operator @\placeholder{op}@=(T operand) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Equivalent to: \tcode{return fetch_\placeholder{key}(operand) \placeholder{op} operand;}
@@ -2592,6 +2642,11 @@ value_type operator++(int) noexcept;
 
 \begin{itemdescr}
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Equivalent to: \tcode{return fetch_add(1);}
 \end{itemdescr}
@@ -2604,6 +2659,11 @@ value_type operator--(int) noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Equivalent to: \tcode{return fetch_sub(1);}
@@ -2618,6 +2678,11 @@ value_type operator++() noexcept;
 
 \begin{itemdescr}
 \pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
+\pnum
 \effects
 Equivalent to: \tcode{return fetch_add(1) + 1;}
 \end{itemdescr}
@@ -2630,6 +2695,11 @@ value_type operator--() noexcept;
 \end{itemdecl}
 
 \begin{itemdescr}
+\pnum
+\constraints
+For the \tcode{volatile} overload of this function,
+\tcode{atomic<T>::is_always_lock_free} is true.
+
 \pnum
 \effects
 Equivalent to: \tcode{return fetch_sub(1) - 1;}
