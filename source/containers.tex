@@ -3168,9 +3168,11 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class T, class Allocator, class U>
-    void erase(deque<T, Allocator>& c, const U& value);
+    typename deque<T, Allocator>::size_type
+      erase(deque<T, Allocator>& c, const U& value);
   template<class T, class Allocator, class Predicate>
-    void erase_if(deque<T, Allocator>& c, Predicate pred);
+    typename deque<T, Allocator>::size_type
+      erase_if(deque<T, Allocator>& c, Predicate pred);
 
   namespace pmr {
     template<class T>
@@ -3200,9 +3202,11 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class T, class Allocator, class U>
-    void erase(forward_list<T, Allocator>& c, const U& value);
+    typename forward_list<T, Allocator>::size_type
+      erase(forward_list<T, Allocator>& c, const U& value);
   template<class T, class Allocator, class Predicate>
-    void erase_if(forward_list<T, Allocator>& c, Predicate pred);
+    typename forward_list<T, Allocator>::size_type
+      erase_if(forward_list<T, Allocator>& c, Predicate pred);
 
   namespace pmr {
     template<class T>
@@ -3232,9 +3236,11 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class T, class Allocator, class U>
-    void erase(list<T, Allocator>& c, const U& value);
+    typename list<T, Allocator>::size_type
+      erase(list<T, Allocator>& c, const U& value);
   template<class T, class Allocator, class Predicate>
-    void erase_if(list<T, Allocator>& c, Predicate pred);
+    typename list<T, Allocator>::size_type
+      erase_if(list<T, Allocator>& c, Predicate pred);
 
   namespace pmr {
     template<class T>
@@ -3264,9 +3270,11 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class T, class Allocator, class U>
-    constexpr void erase(vector<T, Allocator>& c, const U& value);
+    constexpr typename vector<T, Allocator>::size_type
+      erase(vector<T, Allocator>& c, const U& value);
   template<class T, class Allocator, class Predicate>
-    constexpr void erase_if(vector<T, Allocator>& c, Predicate pred);
+    constexpr typename vector<T, Allocator>::size_type
+      erase_if(vector<T, Allocator>& c, Predicate pred);
 
   // \ref{vector.bool}, class \tcode{vector<bool>}
   template<class Allocator> class vector<bool, Allocator>;
@@ -3986,25 +3994,39 @@ Nothing unless an exception is thrown by the assignment operator of
 \indexlibrarymember{erase}{deque}%
 \begin{itemdecl}
 template<class T, class Allocator, class U>
-  void erase(deque<T, Allocator>& c, const U& value);
+  typename deque<T, Allocator>::size_type
+    erase(deque<T, Allocator>& c, const U& value);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.erase(remove(c.begin(), c.end(), value), c.end());}
+Equivalent to:
+\begin{codeblock}
+auto it = remove(c.begin(), c.end(), value);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+\end{codeblock}
 \end{itemdescr}
 
 \indexlibrarymember{erase_if}{deque}%
 \begin{itemdecl}
 template<class T, class Allocator, class Predicate>
-  void erase_if(deque<T, Allocator>& c, Predicate pred);
+  typename deque<T, Allocator>::size_type
+    erase_if(deque<T, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.erase(remove_if(c.begin(), c.end(), pred), c.end());}
+Equivalent to:
+\begin{codeblock}
+auto it = remove_if(c.begin(), c.end(), pred);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+\end{codeblock}
 \end{itemdescr}
 
 \rSec2[forwardlist]{Class template \tcode{forward_list}}
@@ -4771,25 +4793,27 @@ Linear time.
 \indexlibrarymember{erase}{forward_list}%
 \begin{itemdecl}
 template<class T, class Allocator, class U>
-  void erase(forward_list<T, Allocator>& c, const U& value);
+  typename forward_list<T, Allocator>::size_type
+    erase(forward_list<T, Allocator>& c, const U& value);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{erase_if(c, [\&](auto\& elem) \{ return elem == value; \});}
+Equivalent to: \tcode{return erase_if(c, [\&](auto\& elem) \{ return elem == value; \});}
 \end{itemdescr}
 
 \indexlibrarymember{erase_if}{forward_list}%
 \begin{itemdecl}
 template<class T, class Allocator, class Predicate>
-  void erase_if(forward_list<T, Allocator>& c, Predicate pred);
+  typename forward_list<T, Allocator>::size_type
+    erase_if(forward_list<T, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.remove_if(pred);}
+Equivalent to: \tcode{return c.remove_if(pred);}
 \end{itemdescr}
 
 \rSec2[list]{Class template \tcode{list}}
@@ -5477,25 +5501,27 @@ comparisons, where
 \indexlibrarymember{erase}{list}%
 \begin{itemdecl}
 template<class T, class Allocator, class U>
-  void erase(list<T, Allocator>& c, const U& value);
+  typename list<T, Allocator>::size_type
+    erase(list<T, Allocator>& c, const U& value);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{erase_if(c, [\&](auto\& elem) \{ return elem == value; \});}
+Equivalent to: \tcode{return erase_if(c, [\&](auto\& elem) \{ return elem == value; \});}
 \end{itemdescr}
 
 \indexlibrarymember{erase_if}{list}%
 \begin{itemdecl}
 template<class T, class Allocator, class Predicate>
-  void erase_if(list<T, Allocator>& c, Predicate pred);
+  typename list<T, Allocator>::size_type
+    erase_if(list<T, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.remove_if(pred);}
+Equivalent to: \tcode{return c.remove_if(pred);}
 \end{itemdescr}
 
 \rSec2[vector]{Class template \tcode{vector}}
@@ -6021,25 +6047,39 @@ assignment operator or move assignment operator of
 \indexlibrarymember{erase}{vector}%
 \begin{itemdecl}
 template<class T, class Allocator, class U>
-  constexpr void erase(vector<T, Allocator>& c, const U& value);
+  constexpr typename vector<T, Allocator>::size_type
+    erase(vector<T, Allocator>& c, const U& value);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.erase(remove(c.begin(), c.end(), value), c.end());}
+Equivalent to:
+\begin{codeblock}
+auto it = remove(c.begin(), c.end(), value);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+\end{codeblock}
 \end{itemdescr}
 
 \indexlibrarymember{erase_if}{vector}%
 \begin{itemdecl}
 template<class T, class Allocator, class Predicate>
-  constexpr void erase_if(vector<T, Allocator>& c, Predicate pred);
+  constexpr typename vector<T, Allocator>::size_type
+    erase_if(vector<T, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
 \pnum
 \effects
-Equivalent to: \tcode{c.erase(remove_if(c.begin(), c.end(), pred), c.end());}
+Equivalent to:
+\begin{codeblock}
+auto it = remove_if(c.begin(), c.end(), pred);
+auto r = distance(it, c.end());
+c.erase(it, c.end());
+return r;
+\end{codeblock}
 \end{itemdescr}
 
 \rSec2[vector.bool]{Class \tcode{vector<bool>}}
@@ -6271,7 +6311,8 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class Key, class T, class Compare, class Allocator, class Predicate>
-    void erase_if(map<Key, T, Compare, Allocator>& c, Predicate pred);
+    typename map<Key, T, Compare, Allocator>::size_type
+      erase_if(map<Key, T, Compare, Allocator>& c, Predicate pred);
 
   // \ref{multimap}, class template \tcode{multimap}
   template<class Key, class T, class Compare = less<Key>,
@@ -6292,7 +6333,8 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class Key, class T, class Compare, class Allocator, class Predicate>
-    void erase_if(multimap<Key, T, Compare, Allocator>& c, Predicate pred);
+    typename multimap<Key, T, Compare, Allocator>::size_type
+      erase_if(multimap<Key, T, Compare, Allocator>& c, Predicate pred);
 
   namespace pmr {
     template<class Key, class T, class Compare = less<Key>>
@@ -6330,7 +6372,8 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class Key, class Compare, class Allocator, class Predicate>
-    void erase_if(set<Key, Compare, Allocator>& c, Predicate pred);
+    typename set<Key, Compare, Allocator>::size_type
+      erase_if(set<Key, Compare, Allocator>& c, Predicate pred);
 
   // \ref{multiset}, class template \tcode{multiset}
   template<class Key, class Compare = less<Key>, class Allocator = allocator<Key>>
@@ -6349,7 +6392,8 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class Key, class Compare, class Allocator, class Predicate>
-    void erase_if(multiset<Key, Compare, Allocator>& c, Predicate pred);
+    typename multiset<Key, Compare, Allocator>::size_type
+      erase_if(multiset<Key, Compare, Allocator>& c, Predicate pred);
 
   namespace pmr {
     template<class Key, class Compare = less<Key>>
@@ -6885,7 +6929,8 @@ respectively.
 \indexlibrarymember{erase_if}{map}%
 \begin{itemdecl}
 template<class Key, class T, class Compare, class Allocator, class Predicate>
-  void erase_if(map<Key, T, Compare, Allocator>& c, Predicate pred);
+  typename map<Key, T, Compare, Allocator>::size_type
+    erase_if(map<Key, T, Compare, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -6893,6 +6938,7 @@ template<class Key, class T, class Compare, class Allocator, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -6900,6 +6946,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -7210,7 +7257,8 @@ equivalent to \tcode{return emplace_hint(position, std::forward<P>(x))}.
 \indexlibrarymember{erase_if}{multimap}%
 \begin{itemdecl}
 template<class Key, class T, class Compare, class Allocator, class Predicate>
-  void erase_if(multimap<Key, T, Compare, Allocator>& c, Predicate pred);
+  typename multimap<Key, T, Compare, Allocator>::size_type
+    erase_if(multimap<Key, T, Compare, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7218,6 +7266,7 @@ template<class Key, class T, class Compare, class Allocator, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -7225,6 +7274,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -7489,7 +7539,8 @@ where $N$ is
 \indexlibrarymember{erase_if}{set}%
 \begin{itemdecl}
 template<class Key, class Compare, class Allocator, class Predicate>
-  void erase_if(set<Key, Compare, Allocator>& c, Predicate pred);
+  typename set<Key, Compare, Allocator>::size_type
+    erase_if(set<Key, Compare, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7497,6 +7548,7 @@ template<class Key, class Compare, class Allocator, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -7504,6 +7556,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -7766,7 +7819,8 @@ where $N$ is
 \indexlibrarymember{erase_if}{multiset}%
 \begin{itemdecl}
 template<class Key, class Compare, class Allocator, class Predicate>
-  void erase_if(multiset<Key, Compare, Allocator>& c, Predicate pred);
+  typename multiset<Key, Compare, Allocator>::size_type
+    erase_if(multiset<Key, Compare, Allocator>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7774,6 +7828,7 @@ template<class Key, class Compare, class Allocator, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -7781,6 +7836,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -7843,10 +7899,12 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class K, class T, class H, class P, class A, class Predicate>
-    void erase_if(unordered_map<K, T, H, P, A>& c, Predicate pred);
+    typename unordered_map<K, T, H, P, A>::size_type
+      erase_if(unordered_map<K, T, H, P, A>& c, Predicate pred);
 
   template<class K, class T, class H, class P, class A, class Predicate>
-    void erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
+    typename unordered_multimap<K, T, H, P, A>::size_type
+      erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
 
   namespace pmr {
     template<class Key,
@@ -7910,10 +7968,12 @@ namespace std {
       noexcept(noexcept(x.swap(y)));
 
   template<class K, class H, class P, class A, class Predicate>
-    void erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
+    typename unordered_set<K, H, P, A>::size_type
+      erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
 
   template<class K, class H, class P, class A, class Predicate>
-    void erase_if(unordered_multiset<K, H, P, A>& c, Predicate pred);
+    typename unordered_multiset<K, H, P, A>::size_type
+      erase_if(unordered_multiset<K, H, P, A>& c, Predicate pred);
 
   namespace pmr {
     template<class Key,
@@ -8506,7 +8566,8 @@ respectively.
 \indexlibrarymember{erase_if}{unordered_map}%
 \begin{itemdecl}
 template<class K, class T, class H, class P, class A, class Predicate>
-  void erase_if(unordered_map<K, T, H, P, A>& c, Predicate pred);
+  typename unordered_map<K, T, H, P, A>::size_type
+    erase_if(unordered_map<K, T, H, P, A>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -8514,6 +8575,7 @@ template<class K, class T, class H, class P, class A, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -8521,6 +8583,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -8883,7 +8946,8 @@ Equivalent to:
 \indexlibrarymember{erase_if}{unordered_multimap}%
 \begin{itemdecl}
 template<class K, class T, class H, class P, class A, class Predicate>
-  void erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
+  typename unordered_multimap<K, T, H, P, A>::size_type
+    erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -8891,6 +8955,7 @@ template<class K, class T, class H, class P, class A, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -8898,6 +8963,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -9205,7 +9271,8 @@ Average case linear, worst case quadratic.
 \indexlibrarymember{erase_if}{unordered_set}%
 \begin{itemdecl}
 template<class K, class H, class P, class A, class Predicate>
-  void erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
+  typename unordered_set<K, H, P, A>::size_type
+    erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -9213,6 +9280,7 @@ template<class K, class H, class P, class A, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -9220,6 +9288,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
@@ -9533,7 +9602,8 @@ Average case linear, worst case quadratic.
 \indexlibrarymember{erase_if}{unordered_multiset}%
 \begin{itemdecl}
 template<class K, class H, class P, class A, class Predicate>
-  void erase_if(unordered_multiset<K, H, P, A>& c, Predicate pred);
+  typename unordered_multiset<K, H, P, A>::size_type
+    erase_if(unordered_multiset<K, H, P, A>& c, Predicate pred);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -9541,6 +9611,7 @@ template<class K, class H, class P, class A, class Predicate>
 \effects
 Equivalent to:
 \begin{codeblock}
+auto original_size = c.size();
 for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
@@ -9548,6 +9619,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
     ++i;
   }
 }
+return original_size - c.size();
 \end{codeblock}
 \end{itemdescr}
 
