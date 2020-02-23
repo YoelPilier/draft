@@ -1604,7 +1604,7 @@ where
 \item
 if $e_i$ is of array type and
 $x_i$ is a \grammarterm{braced-init-list} or string literal,
-$T_i$ is an rvalue reference to the declared type of $e_i$, and
+$\tcode{T}_i$ is an rvalue reference to the declared type of $e_i$, and
 \item
 otherwise, $\tcode{T}_i$ is the declared type of $e_i$,
 \end{itemize}
@@ -1797,9 +1797,9 @@ struct Y {};
 struct Z {};
 struct W { operator Y(); };
 
-F f1 = {Types<X, Y, Z>{}, {}, {}};      // OK, F<X, Y, Z> deduced
-F f2 = {Types<X, Y, Z>{}, X{}, Y{}};    // OK, F<X, Y, Z> deduced
-F f3 = {Types<X, Y, Z>{}, X{}, W{}};    // error: conflicting types deduced; operator Y not considered
+F f1 = {Types<X, Y, Z>{}, {}, {}};      // OK, \tcode{F<X, Y, Z>} deduced
+F f2 = {Types<X, Y, Z>{}, X{}, Y{}};    // OK, \tcode{F<X, Y, Z>} deduced
+F f3 = {Types<X, Y, Z>{}, X{}, W{}};    // error: conflicting types deduced; \tcode{operator Y} not considered
 \end{codeblock}
 \end{example}
 
