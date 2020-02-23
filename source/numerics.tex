@@ -1292,7 +1292,7 @@ namespace std {
   template<class T>
     constexpr T bit_floor(T x) noexcept;
   template<class T>
-    constexpr T bit__width(T x) noexcept;
+    constexpr T bit_width(T x) noexcept;
 
   // \ref{bit.rotate}, rotating
   template<class T>
@@ -1430,7 +1430,7 @@ template<class T>
 \returns
 If \tcode{x == 0}, \tcode{0};
 otherwise the maximal value \tcode{y}
-such that \tcode{ispow2(y)} is \tcode{true} and \tcode{y <= x}.
+such that \tcode{has_single_bit(y)} is \tcode{true} and \tcode{y <= x}.
 
 \end{itemdescr}
 
