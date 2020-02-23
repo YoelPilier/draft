@@ -2908,7 +2908,7 @@ do not refer to a set of overloads\iref{temp.nondep}.
 \end{itemize}
 
 \pnum
-A declaration is an exposure
+A declaration is an \defn{exposure}
 if it either names a TU-local entity (defined below), ignoring
 \begin{itemize}
 \item
@@ -2919,7 +2919,7 @@ for a (possibly instantiated) definition of a function
 with a declared return type that uses a placeholder type\iref{dcl.spec.auto}),
 \item
 the \grammarterm{initializer}
-for a variable or variable template (but not the variable’s type),
+for a variable or variable template (but not the variable's type),
 \item
 friend declarations in a class definition, and
 \item
@@ -2981,8 +2981,8 @@ is TU-local and is usable in constant expressions.
 
 \pnum
 If a (possibly instantiated) declaration of, or a deduction guide for,
-a non-TU-local entity
-in a module interface unit (outside the private-module-fragment, if any) or
+a non-TU-local entity in a module interface unit
+(outside the \grammarterm{private-module-fragment}, if any) or
 module partition\iref{module.unit} is an exposure,
 the program is ill-formed.
 Such a declaration in any other context is deprecated\iref{depr.local}.
@@ -3000,14 +3000,14 @@ appears at the point of instantiation of the specialization\iref{temp.point}.
 \begin{codeblocktu}{Translation unit \#1}
 export module A;
 static void f() {}
-inline void it() { f(); }           // error: is an exposure of f
+inline void it() { f(); }           // error: is an exposure of \tcode{f}
 static inline void its() { f(); }   // OK
 template<int> void g() { its(); }   // OK
 template void g<0>();
 
-decltype(f) *fp;                    // error: f (though not its type) is TU-local
+decltype(f) *fp;                    // error: \tcode{f} (though not its type) is TU-local
 auto &fr = f;                       // OK
-constexpr auto &fr2 = fr;           // error: is an exposure of f
+constexpr auto &fr2 = fr;           // error: is an exposure of \tcode{f}
 constexpr static auto fp2 = fr;     // OK
 
 struct S { void (&ref)(); } s{f};               // OK: value is TU-local
