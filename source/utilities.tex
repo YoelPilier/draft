@@ -6787,11 +6787,11 @@ namespace std {
     @\unspecnc@ make_unique(Args&&...) = delete;                                // \tcode{T} is \tcode{U[N]}
 
   template<class T>
-    unique_ptr<T> make_unique_for_overwrite();                                   // \tcode{T} is not array
+    unique_ptr<T> make_unique_for_overwrite();                                  // \tcode{T} is not array
   template<class T>
-    unique_ptr<T> make_unique_for_overwrite(size_t n);                           // \tcode{T} is \tcode{U[]}
+    unique_ptr<T> make_unique_for_overwrite(size_t n);                          // \tcode{T} is \tcode{U[]}
   template<class T, class... Args>
-    @\unspecnc@ make_unique_for_overwrite(Args&&...) = delete;                   // \tcode{T} is \tcode{U[N]}
+    @\unspecnc@ make_unique_for_overwrite(Args&&...) = delete;                  // \tcode{T} is \tcode{U[N]}
 
   template<class T, class D>
     void swap(unique_ptr<T, D>& x, unique_ptr<T, D>& y) noexcept;
@@ -6873,14 +6873,14 @@ namespace std {
     shared_ptr<T> allocate_shared(const A& a, const remove_extent_t<T>& u);     // \tcode{T} is \tcode{U[N]}
 
   template<class T>
-    shared_ptr<T> make_shared_for_overwrite();                                   // \tcode{T} is not \tcode{U[]}
+    shared_ptr<T> make_shared_for_overwrite();                                  // \tcode{T} is not \tcode{U[]}
   template<class T, class A>
-    shared_ptr<T> allocate_shared_for_overwrite(const A& a);                     // \tcode{T} is not \tcode{U[]}
+    shared_ptr<T> allocate_shared_for_overwrite(const A& a);                    // \tcode{T} is not \tcode{U[]}
 
   template<class T>
-    shared_ptr<T> make_shared_for_overwrite(size_t N);                           // \tcode{T} is \tcode{U[]}
+    shared_ptr<T> make_shared_for_overwrite(size_t N);                          // \tcode{T} is \tcode{U[]}
   template<class T, class A>
-    shared_ptr<T> allocate_shared_for_overwrite(const A& a, size_t N);           // \tcode{T} is \tcode{U[]}
+    shared_ptr<T> allocate_shared_for_overwrite(const A& a, size_t N);          // \tcode{T} is \tcode{U[]}
 
   // \ref{util.smartptr.shared.cmp}, \tcode{shared_ptr} comparisons
   template<class T, class U>
