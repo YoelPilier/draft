@@ -76,7 +76,7 @@ namespace std {
   template<class T>
     add_rvalue_reference_t<T> declval() noexcept;   // as unevaluated operand
 
-  // \ref{utility.safeintcmp}, Safe integral comparisons
+  // \ref{utility.safeintcmp}, integer comparison functions
   template<class T, class U>
     constexpr bool cmp_equal(T t, U u) noexcept;
   template<class T, class U>
@@ -415,7 +415,7 @@ type \tcode{From} can be explicitly converted to type \tcode{To}. For another ex
 template \tcode{common_type}\iref{meta.trans.other}.
 \end{example}
 
-\rSec2[utility.safeintcmp]{Safe integral comparisons}
+\rSec2[utility.safeintcmp]{Integer comparison functions}
 
 \indexlibraryglobal{cmp_equal}%
 \begin{itemdecl}
