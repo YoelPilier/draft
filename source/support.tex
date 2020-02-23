@@ -5016,7 +5016,8 @@ static coroutine_handle from_promise(Promise& p);
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{p} is a reference to a promise object of a coroutine.
+\expects
+\tcode{p} is a reference to a promise object of a coroutine.
 
 \pnum
 \returns
@@ -5063,7 +5064,8 @@ static constexpr coroutine_handle<Promise> coroutine_handle<Promise>::from_addre
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{addr} was obtained via a prior call to \tcode{address}.
+\expects
+\tcode{addr} was obtained via a prior call to \tcode{address}.
 
 \pnum
 \ensures
@@ -5090,7 +5092,8 @@ bool done() const;
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{*this} refers to a suspended coroutine.
+\expects
+\tcode{*this} refers to a suspended coroutine.
 
 \pnum
 \returns
@@ -5125,7 +5128,8 @@ void resume() const;
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{*this} refers to a suspended coroutine.
+\expects
+\tcode{*this} refers to a suspended coroutine.
 
 \pnum
 \effects
@@ -5139,7 +5143,8 @@ void destroy() const;
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{*this} refers to a suspended coroutine.
+\expects
+\tcode{*this} refers to a suspended coroutine.
 
 \pnum
 \effects
@@ -5155,7 +5160,8 @@ Promise& promise() const;
 
 \begin{itemdescr}
 \pnum
-\expects \tcode{*this} refers to a coroutine.
+\expects
+\tcode{*this} refers to a coroutine.
 
 \pnum
 \returns
