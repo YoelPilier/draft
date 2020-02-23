@@ -6130,12 +6130,10 @@ namespace std::ranges {
     constexpr auto end() requires common_range<V>
     { return @\exposid{iterator}@<false>{ranges::end(@\exposid{base_}@)}; }
 
-    constexpr auto end() const
-      requires range<const V>
+    constexpr auto end() const requires range<const V>
     { return @\exposid{sentinel}@<true>{ranges::end(@\exposid{base_}@)}; }
 
-    constexpr auto end() const
-      requires common_range<const V>
+    constexpr auto end() const requires common_range<const V>
     { return @\exposid{iterator}@<true>{ranges::end(@\exposid{base_}@)}; }
 
     constexpr auto size() requires sized_range<V>
@@ -6146,7 +6144,7 @@ namespace std::ranges {
 
   private:
     template<bool> struct @\exposid{iterator}@;                     // \expos
-    template<bool> struct @\exposid{sentinel}@;                     // \expos
+    template<bool> struct @\exposid{sentinel}@;                     // \expos{} (see \ref{range.elements.sentinel})
     V @\exposid{base_}@ = V();                                      // \expos
   };
 }
